@@ -3,7 +3,21 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from "axios";
 
+
+
+
+axios.get("https://api.github.com/users/jessicamarie7")
+.then(res => {
+  const gitHubInfo = document.querySelector('.cards')
+  gitHubInfo.appendChild(newCard(res.data))
+   console.log(newCard(res.data))
+})
+.catch(err => {
+    debugger;
+
+  })
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -11,6 +25,9 @@
 
     Skip to STEP 3.
 */
+
+
+
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -49,6 +66,56 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function newCard ({avatar_url, name, login, location, html_url, followers, following, bio}) {
+  const container = document.createElement('div')
+  const cardPic = document.createElement('img')
+  const cardContent = document.createElement('div')
+  const cardName = document.createElement("h3")
+  const gitName = document.createElement('p')
+  const gitLocation = document.createElement('p')
+  const gitProfile = document.createElement('p')
+  const gitAddress = document.createElement('a')
+  const gitFollowers = document.createElement('p')
+  const gitFollowing = document.createElement('p')
+  const gitBio = document.createElement('p')
+
+
+
+  container.appendChild(cardPic)
+  container.appendChild(cardContent)
+  cardContent.appendChild(cardName)
+  cardContent.appendChild(gitName)
+  cardContent.appendChild(gitLocation)
+  cardContent.appendChild(gitProfile)
+  cardContent.appendChild(gitAddress)
+  cardContent.appendChild(gitFollowers)
+  cardContent.appendChild(gitFollowing)
+  cardContent.appendChild(gitBio)
+
+  container.classList.add('card')
+  cardContent.classList.add('card-info')
+  cardName.classList.add('name')
+  gitName.classList.add('username')
+
+  cardPic.setAttribute('src', avatar_url)
+  cardName.textContent = name
+  gitName.textContent = login
+  gitLocation.textContent = `Location: ${location}`
+  gitProfile.textContent = `Profile: `
+  gitAddress.setAttribute('href', html_url)
+  gitAddress.textContent = html_url
+  gitFollowers.textContent = `Followers: ${followers}`
+  gitFollowing.textContent = `Following: ${following}`
+  gitBio.textContent = `Bio: ${bio}`
+  
+  console.log(gitAddress)
+  return container
+}
+
+
+
+
 
 /*
   List of LS Instructors Github username's:
