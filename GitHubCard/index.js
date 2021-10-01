@@ -1,8 +1,18 @@
+import axios from "axios";
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+axios.get(`https://api.github.com/users/jessicamarie7`)
+  .then(res => {
+    const cardObj = githubMaker(res.data)
+    entryPoint.appendChild(cardObj)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +38,22 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  axios.get(`https://api.github.com/users/jessicamarie7/followers`)
+  .then(res => {
+    for (let i = 0; i < res.data.length; i++){
+      const friendObj = githubMaker(res.data[i])
+    }})
+    
+    
+
+  .catch(err => {
+    console.log(err)
+  })
+  
+];
+
+console.log(followersArray)
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +74,61 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const entryPoint = document.querySelector('.cards')
+
+function githubMaker({ avatar_url, name, login, location, url, followers, following, bio }) {
+  const gitDiv = document.createElement('div')
+  const gitImg = document.createElement('img')
+  const gitCard = document.createElement('div')
+  const gitName = document.createElement('h3')
+  const gitUser = document.createElement('p')
+  const gitLocation = document.createElement('p')
+  const gitProfile = document.createElement('p')
+  const gitFollowers = document.createElement('p')
+  const gitFollowing = document.createElement('p')
+  const gitBio = document.createElement('p')
+  
+  
+  gitDiv.classList.add('card')
+  gitCard.classList.add('card-info')
+  gitName.classList.add('name')
+  gitUser.classList.add('username')
+  
+  
+  gitImg.src = avatar_url
+  gitName.textContent = `${name}`
+  gitUser.textContent = `${login}`
+  gitLocation.textContent = `Location: ${location}`
+  gitProfile.textContent = `Profile: ${url}`
+  gitFollowers.textContent = `Followers: ${followers}`
+  gitFollowing.textContent = `Following: ${following}`
+  gitBio.textContent = `Bio: ${bio}`
+  
+
+  gitDiv.appendChild(gitImg)
+  gitDiv.appendChild(gitCard)
+  gitCard.appendChild(gitName)
+  gitCard.appendChild(gitUser)
+  gitCard.appendChild(gitLocation)
+  gitCard.appendChild(gitProfile)
+  gitCard.appendChild(gitFollowers)
+  gitCard.appendChild(gitFollowing)
+
+
+  return gitDiv
+}
+
+function myFollowers({ followersArray }) {
+  theFollowers = document.createElement('div')
+  theFollowers.classList.add('the-followers')
+  theFollowers.textContent = `The Followers: ${followersArray}`
+  theFollowers.appendChild(entryPoint)
+
+  return theFollowers
+} 
+
+console.log(myFollowers)
 
 /*
   List of LS Instructors Github username's:
